@@ -1,0 +1,41 @@
+#!/bin/bash
+
+# Variables
+CLUSTER_NAME="my-cluster"
+AWS_REGION="us-east-2"
+NODE_GROUP_NAME="my-node-group"
+NODE_INSTANCE_TYPE="t3.medium"
+KUBECONFIG_PATH="$HOME/.kube/config"
+
+# Create EKS Cluster
+create_cluster() {
+    echo "Creating EKS cluster..."
+    eksctl create cluster \
+        --name $CLUSTER_NAME \
+        --region $AWS_REGION \
+        --nodegroup-name $NODE_GROUP_NAME \
+        --node-type $NODE_INSTANCE_TYPE
+}
+
+# Configure kubeconfig
+configure_kubeconfig() {
+    echo "Configuring kubeconfig..."
+    aws eks --region $AWS_REGION update-kubeconfig --name $CLUSTER_NAME
+}
+
+# Deploy application (example)
+deploy_application() {
+    echo "Deploying application..."
+    kubectl apply -f path/to/your/kubernetes/manifests
+}
+
+# Main function
+main() {
+    create_cluster
+    configure_kubeconfig
+    deploy_application
+}
+
+# Execute the script
+root
+
